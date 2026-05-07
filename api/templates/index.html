@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIS Project - Taichung Safety & Weather</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background: #f0f2f5; color: #333; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 25px; }
+        h2 { color: #1a73e8; border-left: 5px solid #1a73e8; padding-left: 15px; }
+        input[type="text"] { padding: 10px; border: 1px solid #ddd; border-radius: 5px; width: 60%; }
+        button { padding: 10px 20px; background: #1a73e8; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #1557b0; }
+        .result { margin-top: 20px; padding: 15px; background: #e8f0fe; border-radius: 8px; border: 1px solid #c3dafb; }
+    </style>
+</head>
+<body>
+    <h1>Hệ thống thông tin quản lý (MIS)</h1>
+    
+    <div class="card">
+        <h2>(1) 台中市十大肇事路口</h2>
+        <p><i>Danh sách các giao lộ có tỷ lệ tai nạn cao tại Đài Trung:</i></p>
+        <ol>
+            {% for road in roads %}
+            <li>{{ road }}</li>
+            {% endfor %}
+        </ol>
+    </div>
+
+    <div class="card">
+        <h2>(2) 縣市天氣查詢</h2>
+        <form method="POST">
+            <input type="text" name="city" placeholder="Nhập tên huyện thị (VD: 臺中市)" required>
+            <button type="submit">查詢</button>
+        </form>
+
+        {% if weather %}
+            <div class="result">
+                {% if weather.error %}
+                    <p style="color:red;">{{ weather.error }}</p>
+                {% else %}
+                    <p>📍 Địa điểm: <b>{{ weather.city }}</b></p>
+                    <p>☁️ Thời tiết: {{ weather.wx }}</p>
+                    <p>☔ Xác suất mưa: {{ weather.pop }}%</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
